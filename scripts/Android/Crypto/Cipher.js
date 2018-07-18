@@ -50,14 +50,14 @@ var ObjToString = function(input) {
         for (var i = 0; i < input_length; i += 1) {
           byteArray.push(input[i.toString()]);
         }
-        return byteArraytoHexString(byteArray)
+        return "HEX{" + byteArraytoHexString(byteArray) + "}\n RAW{" + hexToAscii(byteArraytoHexString(byteArray)) + "}"
+        //   return byteArraytoHexString(byteArray)
       }
     }else {
     console.log("Object.getOwnPropertyNames(input):" + Object.getOwnPropertyNames(input));
   }
     return byteArraytoHexString(input)
   }
-
 
 var normalizeInput = function(input) {
   // console.log("toType(input): " + toType(input))
@@ -94,12 +94,13 @@ var getRandomValue = function(arg) {
 }
 
 var normalizeKey = function(cert_or_key) {
+  // console.log("cert_or_key.toString():" + cert_or_key.toString())
   var type = cert_or_key.toString().split('@')[0].split('.');
   type = type[type.length - 1];
   if (type === "SecretKeySpec") {
-    return byteArraytoHexString(cert_or_key.getEncoded());
+    return normalizeInput(cert_or_key.getEncoded());
   } else {
-    return "non-SecretKeySpec: " + cert_or_key.toString() + ", encoded: " + byteArraytoHexString(cert_or_key.getEncoded()) + ", object: " + JSON.stringify(cert_or_key);
+    return "non-SecretKeySpec: " + cert_or_key.toString() + ", encoded: " + normalizeInput(cert_or_key.getEncoded()) + ", object: " + JSON.stringify(cert_or_key);
   }
 
 }
@@ -528,7 +529,6 @@ Java.perform(function() {
       //console.log("Cipher.getBlockSize: " + this.getBlockSize());
       var retVal = this.doFinal.overloads[0].apply(this, arguments);
       //console.log("Cipher.doFinal retVal: " + byteArraytoHexString(retVal));
-
       /*   --- Payload Header --- */
       var send_data = {};
       send_data.time = new Date();
@@ -560,29 +560,15 @@ Java.perform(function() {
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data HexString";
+      data.name = "Input Data";
       data.value = normalizeInput(input);
       data.argSeq = 0;
       send_data.artifact.push(data);
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data String";
-      data.value = hexToAscii(normalizeInput(input));
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data HexString";
+      data.name = "Output Data";
       data.value = normalizeInput(retVal);
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data String";
-      data.value = hexToAscii(normalizeInput(retVal));
       data.argSeq = 0;
       send_data.artifact.push(data);
 
@@ -631,29 +617,15 @@ Java.perform(function() {
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data HexString";
+      data.name = "Input Data";
       data.value = normalizeInput(input);
       data.argSeq = 0;
       send_data.artifact.push(data);
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data String";
-      data.value = hexToAscii(normalizeInput(input));
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data HexString";
+      data.name = "Output Data";
       data.value = normalizeInput(retVal);
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data String";
-      data.value = hexToAscii(normalizeInput(retVal));
       data.argSeq = 0;
       send_data.artifact.push(data);
 
@@ -670,7 +642,7 @@ Java.perform(function() {
       //console.log("Cipher.getAlgorithm: " + this.getAlgorithm());
       //console.log("Cipher.getIV: " + byteArraytoHexString(this.getIV()));
       //console.log("Cipher.getBlockSize: " + this.getBlockSize());
-      var retVal = this.doFinal.overloads[2].apply(this, arguments);
+      var retVal = this.doFinal.overloads[5].apply(this, arguments);
       //console.log("Cipher.doFinal retVal: " + byteArraytoHexString(retVal));
       /*   --- Payload Header --- */
       var send_data = {};
@@ -703,29 +675,15 @@ Java.perform(function() {
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data HexString";
+      data.name = "Input Data";
       data.value = normalizeInput(input);
       data.argSeq = 0;
       send_data.artifact.push(data);
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data String";
-      data.value = hexToAscii(normalizeInput(input));
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data HexString";
+      data.name = "Output Data";
       data.value = normalizeInput(retVal);
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data String";
-      data.value = hexToAscii(normalizeInput(retVal));
       data.argSeq = 0;
       send_data.artifact.push(data);
 
@@ -775,29 +733,15 @@ Java.perform(function() {
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data HexString";
+      data.name = "Input Data";
       data.value = normalizeInput(input);
       data.argSeq = 0;
       send_data.artifact.push(data);
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data String";
-      data.value = hexToAscii(normalizeInput(input));
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data HexString";
+      data.name = "Output Data";
       data.value = normalizeInput(retVal);
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data String";
-      data.value = hexToAscii(normalizeInput(retVal));
       data.argSeq = 0;
       send_data.artifact.push(data);
 
@@ -847,29 +791,15 @@ Java.perform(function() {
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data HexString";
+      data.name = "Input Data";
       data.value = normalizeInput(input);
       data.argSeq = 0;
       send_data.artifact.push(data);
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data String";
-      data.value = hexToAscii(normalizeInput(input));
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data HexString";
+      data.name = "Output Data";
       data.value = normalizeInput(retVal);
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data String";
-      data.value = hexToAscii(normalizeInput(retVal));
       data.argSeq = 0;
       send_data.artifact.push(data);
 
@@ -918,29 +848,15 @@ Java.perform(function() {
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data HexString";
+      data.name = "Input Data";
       data.value = normalizeInput(input);
       data.argSeq = 0;
       send_data.artifact.push(data);
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data String";
-      data.value = hexToAscii(normalizeInput(input));
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data HexString";
+      data.name = "Output Data";
       data.value = normalizeInput(retVal);
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data String";
-      data.value = hexToAscii(normalizeInput(retVal));
       data.argSeq = 0;
       send_data.artifact.push(data);
 
@@ -989,29 +905,15 @@ Java.perform(function() {
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data HexString";
+      data.name = "Input Data";
       data.value = normalizeInput(input);
       data.argSeq = 0;
       send_data.artifact.push(data);
 
       /*   --- Payload Body --- */
       data = {};
-      data.name = "Input Data String";
-      data.value = hexToAscii(normalizeInput(input));
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data HexString";
+      data.name = "Output Data";
       data.value = normalizeInput(retVal);
-      data.argSeq = 0;
-      send_data.artifact.push(data);
-
-      /*   --- Payload Body --- */
-      data = {};
-      data.name = "Output Data String";
-      data.value = hexToAscii(normalizeInput(retVal));
       data.argSeq = 0;
       send_data.artifact.push(data);
 
